@@ -7,19 +7,32 @@
 //
 
 import UIKit
+import SwiftTryCatch
+import AVFoundation
 
 class ViewController: UIViewController {
 
+    let player = AVAudioPlayerNode()
+    let audioEngine = AVAudioEngine()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        audioEngine.attach(player)
+
+        audioEngine.connect(player, to: audioEngine.mainMixerNode, format: nil)
+
+//        try? audioEngine.start()
+
+        SwiftTryCatch.try({
+            self.player.play()
+        }, catch: { e in
+            if let exception = e {
+                print("description: " + exception.description)
+            }
+        }) {
+            print("hodor")
+        }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
 
